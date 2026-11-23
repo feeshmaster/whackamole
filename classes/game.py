@@ -1,15 +1,16 @@
 import tkinter as tk
 import random
+import math
 from PIL import Image, ImageTk
 from pygame import mixer
 from classes.hammer import Hammer
 from classes.text import Text
-
+from classes.mole import Mole
 
 class Game:
     def __init__(self, cfg):
-        self.root = cfg.root
-        self.canvas = cfg.canvas
+        self.root: tk.Tk = cfg.root
+        self.canvas: tk.Canvas = cfg.canvas
         self.cfg = cfg
 
         
@@ -24,12 +25,26 @@ class Game:
         self.cfg.tile_height = self.tile_height
         self.hammer = Hammer(self.cfg, self.hit)
 
-        self.t_score = Text(self.canvas, 0, 0, 16, "Test")
+        self.t_score = Text(self.canvas, 0, 0, 16, 0, _before="Score: ")
+        self.score = 0
+
+        self.moles = [
+            Mole(self.cfg, self.mole_hit, (2*self.tile_width, 2*self.tile_height)), Mole(self.cfg, self.mole_hit, (4*self.tile_width, 2*self.tile_height)), Mole(self.cfg, self.mole_hit, (6*self.tile_width, 2*self.tile_height)), 
+            Mole(self.cfg, self.mole_hit, (2*self.tile_width, 4*self.tile_height)), Mole(self.cfg, self.mole_hit, (4*self.tile_width, 4*self.tile_height)), Mole(self.cfg, self.mole_hit, (6*self.tile_width, 4*self.tile_height)), 
+            Mole(self.cfg, self.mole_hit, (2*self.tile_width, 6*self.tile_height)), Mole(self.cfg, self.mole_hit, (4*self.tile_width, 6*self.tile_height)), Mole(self.cfg, self.mole_hit, (6*self.tile_width, 6*self.tile_height)), 
+            ]
 
         self.render()
-
+        self.frame()
+    def mole_hit(self):
+        self.score += 1
+        self.t_score.update(self.score)
+        
+        
     def hit(self, x, y):
-        pass
+        return
+        
+
     def load_image(self, w, h, image):
         img = Image.open(image)
 
@@ -52,9 +67,14 @@ class Game:
         self.canvas.delete("all")
         self.canvas.create_image(0, 0, image=self.background, anchor="nw")
         self.t_score.update()
+        for mole in self.moles:
+            mole.render()
+
+
         self.hammer.render()
 
     def frame(self):
         self.render()
-
+        
+        
         self.root.after(20, self.frame)

@@ -58,5 +58,6 @@ class Hammer:
         y = max(0, min(self.pos[1], canvas_height - self.tile_height))
 
         self.item = self.canvas.create_image(
-            x, y, image=self.sprites[self.cframe], anchor="nw"
+            x, y, image=self.sprites[self.cframe], anchor="nw", state="disabled"
         )
+        
