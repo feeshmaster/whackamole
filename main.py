@@ -3,7 +3,7 @@ from pygame import mixer
 # from scenes.selection import Selection
 from classes.game import Game
 from classes.config import Config
-from scenes.pause import Pause
+from scenes.start import Start
 import ctypes
 mixer.init()
 # NOTE: dir starts in main.py root dir
@@ -47,7 +47,7 @@ def start():
     global cfg, game
     game = Game(cfg)
 
-Pause(root, canvas, start)
+Start(root, canvas, start)
 # Selection(root, canvas, start)
 
 root.mainloop()
