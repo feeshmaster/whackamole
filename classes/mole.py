@@ -1,9 +1,6 @@
-
-
-
 import tkinter as tk
+import random
 from PIL import Image, ImageTk
-
 
 class Mole:
     def __init__(self, cfg, hit, pos):
@@ -11,15 +8,18 @@ class Mole:
         self.root = cfg.root
         self.tile_width = cfg.tile_width
         self.tile_height = cfg.tile_height
+        self.cfg = cfg
         self.hitted = hit
         self.pos = pos
         self.item = None
         self.hidden = False
         self.sprite = self.load_image("./assets/diglett.png")
     def hit(self, e):
-        self.hitted()
-        self.hide()
-        self.root.after(2000, self.appear)
+        self.hitted(self)
+
+        #self.hide()
+        #delay = random.randint(2000, 5000)
+        #self.root.after(delay, self.appear)
     def bind(self):
         self.canvas.tag_bind(self.item, "<Button-1>", self.hit)
         
